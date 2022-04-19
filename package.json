@@ -9,6 +9,13 @@
     "build-prod": "webpack --config webpack.prod.js",
     "build-dev": "webpack-dev-server --config webpack.dev.js --open"
   },
+  "jest": {
+    "verbose": true,
+    "automock": false,
+    "setupFiles": [
+      "<rootDir>/src/setupJest.js"
+    ]
+  },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
     "cors": "^2.8.5",
