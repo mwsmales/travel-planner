@@ -1,0 +1,65 @@
+/* body */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+main {
+    flex: 2;
+}
+
+
+section {
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+/* INPUT FORM */
+.inputForm {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #545454;
+    padding: 40px;
+    
+    #inputPara {
+        padding: 10px 10px;
+        line-height: 18px;
+        height: 18px+20px;
+        resize: none;
+        overflow: hidden;
+        width: 70%;
+        margin: 0 10px;
+    }
+
+    #dateInput {
+        margin: 0 10px;
+    }
+    
+    #actionButton {
+        width: 300px;
+        margin: 0 10px;
+    }
+}
+
+
+/* Tablets */
+@media (max-width: 1000px) {
+    section {
+        max-width: 600px;
+        margin: 50px auto;
+    }    
+}
+
+
+/* Small screens */
+@media (max-width: 700px) {
+    section {
+        margin: 50px 20px;
+    }
+}
+
+
+/* RESULTS SECTION */
+// TODO

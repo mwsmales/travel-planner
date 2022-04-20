@@ -13,7 +13,11 @@
         </header>
         <main>
             <section id="inputSection">
-                <h3>Input Section</h3>
+                <form class="inputForm">
+                    <textarea id="inputPara" placeholder="Where are you planning to go?"></textarea> 
+                    <input type="date" id="dateInput">
+                    <input type="button" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)"></button>
+                </form>
             </section>
             <section id="outputSection">
                 <h3>Output Section</h3>
