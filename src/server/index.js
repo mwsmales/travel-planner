@@ -1,3 +1,6 @@
+// function imports
+const svrFns = require('./serverFunctions');
+
 // require dotenv for environmental variables
 const dotenv = require('dotenv');
 dotenv.config();
@@ -21,3 +24,8 @@ const port = 8081;
 app.listen(port, function(){
     console.log(`App listening on port ${port}!`)
 })
+
+// get requests for API keys
+app.get('/getGeoNamesKey', svrFns.sendGeoNamesKey);
+app.get('/getWeatherbitKey', svrFns.sendWeatherbitKey);
+app.get('/getPixabayKey', svrFns.sendPixabayKey);

@@ -1,11 +1,12 @@
-import { helloWorld } from './js/functions'
+import { addTrip } from './js/formHandler'
+
 
 import './styles/resets.scss'
 import './styles/fonts.scss'
-import './styles/main.scss'
 import './styles/header.scss'
+import './styles/main.scss'
 
-// test JS is working
-helloWorld();
 
-export { helloWorld }
+export {
+    addTrip,
+}
