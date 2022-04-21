@@ -1,6 +1,7 @@
 /* FUNCTION TO HANDLE FORM SUBMIT */
 
 import { getApiKey } from './backEndFunctions'
+import { getPixabayImgUrl } from './apiFunctions'
 
 
 // main function 
@@ -21,19 +22,19 @@ async function addTrip(event) {
     console.log(`Weatherbit Key: ${weatherbitKey}`)
     console.log(`Pixabay Key: ${pixabayKey}`)
 
-    /**
-     * send API request to get coords
-     * 
-     * send API request to get weather forecast at coords 
-     *   if date = this week, get today weather
-     *   else if date = future, get weather that date
-     *   else (date is in past) - throw error
-     * 
-     * API request to get a picture of the location
-     * 
-     * Update the UI
-     * 
-     */
+    // Call Geonames API to get coords
+
+    // Call Weatherbit API to get forecast
+    //   if date = this week, get today weather
+    //   else if date = future, get weather that date
+    //   else (date is in past) - throw error
+    
+    // API request to get picture of the location
+    const locationImgUrl = await getPixabayImgUrl(pixabayKey, tripDestination);
+    console.log('location image url', locationImgUrl['hits'][0]['webformatURL'])
+
+
+    // Update the UI
 
 
 }
