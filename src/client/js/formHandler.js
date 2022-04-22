@@ -4,7 +4,7 @@ import { getApiKey } from './backEndFunctions'
 import { 
     getPixabayImgUrl,
     getGeonamesCoords,
-    getWeather
+    getForecastWeather
 } from './apiFunctions'
 
 
@@ -37,14 +37,12 @@ async function addTrip(event) {
 
 
     // Call Weatherbit API to get forecast
-    console.log(getWeather(tripDate, lat, lng, weatherbitKey));
-    console.log('trip date: ', tripDate)
+    const weatherForecast = await getForecastWeather(lat, lng, weatherbitKey);
     
     // API request to get picture of the location
     const locationImgUrl = await getPixabayImgUrl(pixabayKey, destCountry + ' ' + destCity);
     // TODO: add error handling to display blank image if there are no results 
     console.log('location image url', locationImgUrl['hits'][0]['webformatURL'])
-
 
     // Update the UI
 
