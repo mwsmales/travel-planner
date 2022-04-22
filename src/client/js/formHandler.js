@@ -3,7 +3,8 @@
 import { getApiKey } from './backEndFunctions'
 import { 
     getPixabayImgUrl,
-    getGeonamesCoords
+    getGeonamesCoords,
+    getWeather
 } from './apiFunctions'
 
 
@@ -15,7 +16,7 @@ async function addTrip(event) {
     // get values from form
     const destCountry = document.getElementById('inputCountry').value;
     const destCity = document.getElementById('inputCity').value;
-    const tripDate = document.getElementById('dateInput');
+    const tripDate = document.getElementById('dateInput').value;
 
     // retrieve API keys from backend
     const geoNamesKey = await getApiKey('http://localhost:8081/getGeoNamesKey');
@@ -30,13 +31,14 @@ async function addTrip(event) {
 
     // Call Geonames API to get coords
     const coords = await getGeonamesCoords(geoNamesKey, destCity, destCountry);
-    console.log('Coordinates', coords['geonames'][0]['lat'], coords['geonames'][0]['lng'])
+    const lat = coords['geonames'][0]['lat'];
+    const lng = coords['geonames'][0]['lng'];
+    console.log('Coordinates', lat, lng)
 
 
     // Call Weatherbit API to get forecast
-    //   if date = this week, get today weather
-    //   else if date = future, get weather that date
-    //   else (date is in past) - throw error
+    console.log(getWeather(tripDate, lat, lng, weatherbitKey));
+    console.log('trip date: ', tripDate)
     
     // API request to get picture of the location
     const locationImgUrl = await getPixabayImgUrl(pixabayKey, destCountry + ' ' + destCity);
