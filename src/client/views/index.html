@@ -17,11 +17,41 @@
                     <textarea class="inputPara" id="inputCountry" placeholder="Which country are you visiting?"></textarea> 
                     <textarea class="inputPara" id="inputCity" placeholder="Where town / city are you visiting?"></textarea> 
                     <input type="date" id="dateInput">
-                    <input type="button" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)"></button>
+                    <input type="button" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)">
                 </form>
             </section>
             <section id="outputSection">
-                <h3>Output Section</h3>
+                <div class="tripCard" id="trip1">
+                    <img src="http://placekitten.com/300/200" alt="Trip Headline">
+                    <div class="tripInfo">
+                        <h2>London, United Kingdom</h2>
+                        <h3>March 12, 2002 - March 24, 2022</h3>
+                        <h3>12 nights</h3>
+                        <div class="weatherForecast"><p>Weather forecast placeholder</p></div>
+                        <div class="flights"><p>Flight info placeholder</p></div>
+                        <div class="hotels"><p>Hotel booking placeholder</p></div>
+                        <div class="cars"><p>Car rental placeholder</p></div>
+                        <div class="removeTrip"><p>Remove trip button placeholder</p></div>
+                    </div>
+                </div>
+                <div class="tripCard">
+                    <img src="http://placekitten.com/300/200" alt="Trip Headline">
+                    <div class="tripInfo" id="trip2">
+                        <h2>London, United Kingdom</h2>
+                        <h3>March 12, 2002 - March 24, 2022</h3>
+                        <h3>12 nights</h3>
+                        <div class="weatherForecast"><p>Weather forecast placeholder</p></div>
+                        <div class="flights"><p>Flight info placeholder</p></div>
+                        <div class="hotels"><p>Hotel booking placeholder</p></div>
+                        <div class="cars"><p>Car rental placeholder</p></div>
+                        <div class="tripControls">
+                            <input type="button" value="Add Flight">
+                            <input type="button" value="Add Hotel">
+                            <input type="button" value="Add Car Rental"> 
+                            <input type="button" value="Delete Trip"> 
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
         <footer>
