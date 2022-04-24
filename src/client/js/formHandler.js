@@ -6,6 +6,7 @@ import {
     getGeonamesCoords,
     getForecastWeather
 } from './apiFunctions'
+import { addTripUi } from './uiFunctions'
 
 let trips = {tripCount: 0, idCount: 0, tripData : []}; // global object to hold trip info 
 
@@ -56,6 +57,7 @@ async function addTrip(event) {
 
     // Update the UI
     console.log(tripData);
+    addTripUi(tripData['id'], tripData['location']['city'], tripData['location']['country'], tripData['date'], tripData['imgUrl']);   
 
     // update trips object
     trips['tripData'].push(tripData);
