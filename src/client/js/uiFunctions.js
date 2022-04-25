@@ -2,27 +2,35 @@ const countryLookup = require('./country_lookup.json');
 
 /**
  * Add all trips listed in 'trips' object.
- * Uses the 'trips' global object
+ * Uses the 'trips' global object.
+ * 
+ * @param {object} - trips, an object containing data about all trips
+ * 
+ *  @returns - None.
  */
  function addAllTripsUi(trips) {
     console.log('updating UI with trips :', trips)
-    for (let trip of trips['tripData']) {
-        addTripUi(trip['id'], trip['location']['city'], trip['location']['country'], trip['date'], trip['imgUrl']);   
+    for (let tripData of trips['tripData']) {
+        addTripUi(tripData);   
     }
 }
 
 /**
  * Update the UI when a new trip is added.
- * Assigns the trip ID to the containing HTML div
+ * Assigns the trip ID to the containing HTML div.
  * 
- * @param {bigint} tripId - the unique ID of the trip
- * @param {string} city - the destination city / town name
- * @param {string} country - the destination country name
- * @param {string} startDate - the start date in format 'YYYY-MM-DD'
- * @param {string} imgUrl - the URL for the image
+ * @param {object} tripData - object containing the trip data
  * @returns - None.
  */
-function addTripUi(tripId, city, country, startDate, imgUrl) {
+function addTripUi(tripData) {
+    //unpack data from tripData object
+    console.log('tripData: ', tripData)
+    const tripId = tripData['id'];
+    const city = tripData['location']['city'];
+    const country = tripData['location']['country'];
+    const startDate = tripData['date'];
+    const imgUrl = tripData['imgUrl'];
+
     // create a new fragment
     const fragment = document.createDocumentFragment();
     // addpend tripCard div to the fragment and set its ID

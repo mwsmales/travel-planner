@@ -35,20 +35,8 @@ async function getTrips() {
     }
 }
 
-async function addTripData(country, city, date, lat, lng, weather, imgUrl) {
+async function addTripData(tripData) {
     console.log('Updating trip data...')
-    // form new tripData object    
-    let tripData = {
-        'id': null, // trip ID filled in by backend based on idCount
-        'location':{}
-    }
-    tripData['location']['country'] = country;
-    tripData['location']['city'] = city;
-    tripData['date'] = date;
-    tripData['location']['lat'] = lat;
-    tripData['location']['lng'] = lng;
-    tripData['weather'] = weather;
-    tripData['imgUrl'] = imgUrl;
     console.log('trip data to be added: ', tripData)
 
     // Post the new trip to the backend
