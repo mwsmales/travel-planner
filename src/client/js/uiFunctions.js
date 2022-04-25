@@ -66,7 +66,28 @@ function addCountryList() {
     document.getElementById('countryDropDown').append(fragment);
 }
 
+/**
+ * Converts the country name to the two-digit ISO 3166 country code.
+ * 
+ * @param {string} countryName - the country name from the drop down
+ * @returns {string} the ISO 3166 country code
+ */
+function getCountryCode(countryName) {
+    let countryCode;
+    for (let country of countryLookup) {
+        if (country['name'] == countryName) {
+            countryCode = country['alpha-2'];
+            break;
+        }
+    }
+    // const countryCode = 'GB';
+    console.log('country name: ', countryName)
+    console.log('country code: ', countryCode)
+    return(countryCode);
+}
+
 export {
     addTripUi,
-    addCountryList
+    addCountryList,
+    getCountryCode,
 }

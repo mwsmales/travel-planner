@@ -6,7 +6,10 @@ import {
     getGeonamesCoords,
     getForecastWeather
 } from './apiFunctions'
-import { addTripUi } from './uiFunctions'
+import { 
+    addTripUi,
+    getCountryCode
+} from './uiFunctions'
 
 let trips = {tripCount: 0, idCount: -1, tripData : []}; // global object to hold trip info 
 
@@ -19,7 +22,7 @@ async function addTrip(event) {
     
     // TODO: update this with some sort of location validation, otherwise print an error to the UI    
     // get values from form
-    const country = document.getElementById('inputCountry').value;
+    const country = document.getElementById('countryDropDown').value;
     const city = document.getElementById('inputCity').value;
     const date = document.getElementById('dateInput').value;
     
@@ -32,10 +35,11 @@ async function addTrip(event) {
     console.log(`Weatherbit Key: ${weatherbitKey}`);
     console.log(`Pixabay Key: ${pixabayKey}`);
     
-    // TODO convert country name to ISO-3166 country code 
+    // convert country name to ISO-3166 country code 
+    const countryCode = getCountryCode(country);
     
     // Call Geonames API to get coords
-    const coords = await getGeonamesCoords(geoNamesKey, city,country);
+    const coords = await getGeonamesCoords(geoNamesKey, city, countryCode);
     const lat = coords['geonames'][0]['lat'];
     const lng = coords['geonames'][0]['lng'];
     console.log('Coordinates', lat, lng);
