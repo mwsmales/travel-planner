@@ -14,56 +14,46 @@ let trips = {tripCount: 0, idCount: -1, tripData : []}; // global object to hold
 async function addTrip(event) {
     event.preventDefault();
 
-    // initialize new tripdata entry    
-    let tripData = {
-        'id': trips['idCount']+1,
-        'location':{}
-    }  
     console.log(trips);
-
+    const tripId = trips['idCount']+1;
+    
     // TODO: update this with some sort of location validation, otherwise print an error to the UI    
     // get values from form
-    tripData['location']['country'] = document.getElementById('inputCountry').value;
-    tripData['location']['city'] = document.getElementById('inputCity').value;
-    tripData['date'] = document.getElementById('dateInput').value;
-    console.log(tripData);
-
+    const country = document.getElementById('inputCountry').value;
+    const city = document.getElementById('inputCity').value;
+    const date = document.getElementById('dateInput').value;
+    
     // retrieve API keys from backend
     const geoNamesKey = await getApiKey('http://localhost:8081/getGeoNamesKey');
     const weatherbitKey = await getApiKey('http://localhost:8081/getWeatherbitKey');
     const pixabayKey = await getApiKey('http://localhost:8081/getPixabayKey');
-
+    
     console.log(`GeoNames Key: ${geoNamesKey}`);
     console.log(`Weatherbit Key: ${weatherbitKey}`);
     console.log(`Pixabay Key: ${pixabayKey}`);
-
+    
     // TODO convert country name to ISO-3166 country code 
-
+    
     // Call Geonames API to get coords
-    const coords = await getGeonamesCoords(geoNamesKey, tripData['location']['city'], tripData['location']['country']);
-    tripData['location']['lat'] = coords['geonames'][0]['lat'];
-    tripData['location']['lng'] = coords['geonames'][0]['lng'];
-    console.log('Coordinates', tripData['location']['lat'], tripData['location']['lng']);
-
+    const coords = await getGeonamesCoords(geoNamesKey, city,country);
+    const lat = coords['geonames'][0]['lat'];
+    const lng = coords['geonames'][0]['lng'];
+    console.log('Coordinates', lat, lng);
+    
     // Call Weatherbit API to get forecast
-    const weatherForecast = await getForecastWeather(tripData['location']['lat'], tripData['location']['lng'], weatherbitKey);
-    tripData['weather'] = weatherForecast;
-
+    const weatherForecast = await getForecastWeather(lat, lng, weatherbitKey);
+    
     // API request to get picture of the location
-    const locationImgUrl = await getPixabayImgUrl(pixabayKey, tripData['location']['country'] + ' ' + tripData['location']['city']);
+    const pixabayResults = await getPixabayImgUrl(pixabayKey, country + ' ' + city);
     // TODO: add error handling to display blank image if there are no results 
-    console.log('location image url', locationImgUrl['hits'][0]['webformatURL']);
-    tripData['imgUrl'] = locationImgUrl['hits'][0]['webformatURL'];
-
+    const imgUrl = pixabayResults['hits'][0]['webformatURL'];
+    console.log('location image url', imgUrl);
+    
     // Update the UI
-    console.log(tripData);
-    addTripUi(tripData['id'], tripData['location']['city'], tripData['location']['country'], tripData['date'], tripData['imgUrl']);   
-
+    addTripUi(tripId, city, country, date, imgUrl);   
+    
     // update trips object
-    trips['tripData'].push(tripData);
-    trips['tripCount'] += 1;
-    trips['idCount'] += 1;
-    console.log(trips);
+    addTripData(tripId, country, city, date, lat, lng, weatherForecast, imgUrl)
 }
 
 function deleteTrip(tripId) {
@@ -71,6 +61,31 @@ function deleteTrip(tripId) {
     document.getElementById(`trip_card_${tripId}`).remove();
     
     // remove trip from data structure
+    removeTripData(tripId);
+    console.log('trips: ', trips)
+}
+
+function addTripData(tripId, country, city, date, lat, lng, weather, imgUrl) {
+    // initialize new tripdata entry    
+    console.log('Updating trip data...')
+    let tripData = {
+        'id': tripId,
+        'location':{}
+    }
+    tripData['location']['country'] = country;
+    tripData['location']['city'] = city;
+    tripData['date'] = date;
+    tripData['location']['lat'] = lat;
+    tripData['location']['lng'] = lng;
+    tripData['weather'] = weather;
+    tripData['imgUrl'] = imgUrl;
+    trips['tripData'].push(tripData);
+    trips['tripCount'] += 1;
+    trips['idCount'] += 1;
+    console.log('done: ', trips);
+}
+
+function removeTripData(tripId) {
     trips['tripCount'] -= 1;
     for (let i = 0; i < trips['tripData'].length; i++) {
         if (trips['tripData'][i]['id'] == tripId) {
@@ -78,7 +93,7 @@ function deleteTrip(tripId) {
             break;
         }
     }
-    console.log('trips: ', trips)
+
 }
 
 export {
