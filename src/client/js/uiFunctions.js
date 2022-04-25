@@ -44,8 +44,8 @@ function addTripUi(tripId, city, country, startDate, imgUrl) {
     
     // create and append child with tripcontrols.  Incl. innerHTML with a remove trip button
     let controlsDiv = document.createElement('div');
-    controlsDiv.classList =+ 'tripControls';
-    controlsDiv.innerHTML = '<input type="button" value="Delete Trip">';
+    controlsDiv.classList += 'tripControls';
+    controlsDiv.innerHTML = `<input type="button" value="Delete Trip" onclick="Client.deleteTrip(parseInt(${tripId}))">`;
     tripInfoDiv.appendChild(controlsDiv);
 
     cardDiv.appendChild(tripInfoDiv);

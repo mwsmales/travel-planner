@@ -8,7 +8,7 @@ import {
 } from './apiFunctions'
 import { addTripUi } from './uiFunctions'
 
-let trips = {tripCount: 0, idCount: 0, tripData : []}; // global object to hold trip info 
+let trips = {tripCount: 0, idCount: -1, tripData : []}; // global object to hold trip info 
 
 // main function 
 async function addTrip(event) {
@@ -66,7 +66,23 @@ async function addTrip(event) {
     console.log(trips);
 }
 
+function deleteTrip(tripId) {
+    console.log('delete trip card, id: ', tripId);
+    document.getElementById(`trip_card_${tripId}`).remove();
+    
+    // remove trip from data structure
+    trips['tripCount'] -= 1;
+    for (let i = 0; i < trips['tripData'].length; i++) {
+        if (trips['tripData'][i]['id'] == tripId) {
+            trips['tripData'].splice(i, 1);
+            break;
+        }
+    }
+    console.log('trips: ', trips)
+}
+
 export {
-    addTrip
+    addTrip,
+    deleteTrip
 }
 
