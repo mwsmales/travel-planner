@@ -2,6 +2,7 @@
 
 import { 
     getApiKey,
+    getTrips,
     addTripData, 
     removeTripData
 } from './backEndFunctions'
@@ -11,56 +12,21 @@ import {
     getForecastWeather
 } from './apiFunctions'
 import { 
+    addAllTripsUi,
     addTripUi,
     getCountryCode
 } from './uiFunctions'
 
-let trips = {tripCount: 0, idCount: -1, tripData : []}; // global object to hold trip info 
 
 async function refreshUI() {
-    await getTrips();
-    addAllTripsUi();
+    const trips = await getTrips();
+    addAllTripsUi(trips);
 }
-
-async function getTrips() {
-    console.log('trip data before fetch: ', trips);
-    console.log('getting trip data from backend');
-    const response = await fetch('http://localhost:8081/getTrips', {
-        method: 'GET', 
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    try {
-        trips = await response.json(); // update global variable
-        console.log('trip data received :', trips);
-    } 
-    catch(error) {
-        console.log("error getting trip data: ", error);
-    }
-}
-
-/**
- * Add all trips listed in 'trips' object.
- * Uses the 'trips' global object
- */
- function addAllTripsUi() {
-    console.log('updating UI with trips :', trips)
-    for (let trip of trips['tripData']) {
-        addTripUi(trip['id'], trip['location']['city'], trip['location']['country'], trip['date'], trip['imgUrl']);   
-    }
-}
-
-
 
 // main function 
 async function addTrip(event) {
     event.preventDefault();
 
-    console.log(trips);
-    const tripId = trips['idCount']+1;
-    
     // TODO: update this with some sort of location validation, otherwise print an error to the UI    
     // get values from form
     const country = document.getElementById('countryDropDown').value;
@@ -94,21 +60,24 @@ async function addTrip(event) {
     const imgUrl = pixabayResults['hits'][0]['webformatURL'];
     console.log('location image url', imgUrl);
     
+    // update trips object
+    const trips = await addTripData(country, city, date, lat, lng, weatherForecast, imgUrl);
+    console.log('trips: ', trips) 
+    const tripId = trips['idCount'];
+    
     // Update the UI
     addTripUi(tripId, city, country, date, imgUrl);   
     
-    // update trips object
-    trips = await addTripData(tripId, country, city, date, lat, lng, weatherForecast, imgUrl);
-    console.log('trips: ', trips) 
 }
 
 async function deleteTrip(tripId) {
     console.log('delete trip card, id: ', tripId);
-    document.getElementById(`trip_card_${tripId}`).remove();
-    
     // remove trip from data structure
-    trips = await removeTripData(tripId);
-    console.log('trips: ', trips)
+    const trips = await removeTripData(tripId);
+    // remove trip from UI
+    document.getElementById(`trip_card_${tripId}`).remove();    
+    console.log('trips updated: ', trips)
+
 }
 
 export {

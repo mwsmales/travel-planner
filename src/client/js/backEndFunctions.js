@@ -16,11 +16,30 @@ async function getApiKey(url = '') {
     }
 }
 
-async function addTripData(tripId, country, city, date, lat, lng, weather, imgUrl) {
+async function getTrips() {
+    console.log('getting trip data from backend');
+    const response = await fetch('http://localhost:8081/getTrips', {
+        method: 'GET', 
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    try {
+        let trips = await response.json(); // update global variable
+        console.log('trip data received :', trips);
+        return(trips)
+    } 
+    catch(error) {
+        console.log("error getting trip data: ", error);
+    }
+}
+
+async function addTripData(country, city, date, lat, lng, weather, imgUrl) {
     console.log('Updating trip data...')
     // form new tripData object    
     let tripData = {
-        'id': tripId,
+        'id': null, // trip ID filled in by backend based on idCount
         'location':{}
     }
     tripData['location']['country'] = country;
@@ -30,6 +49,7 @@ async function addTripData(tripId, country, city, date, lat, lng, weather, imgUr
     tripData['location']['lng'] = lng;
     tripData['weather'] = weather;
     tripData['imgUrl'] = imgUrl;
+    console.log('trip data to be added: ', tripData)
 
     // Post the new trip to the backend
     const response = await fetch('http://localhost:8081/addTripData', {
@@ -50,7 +70,6 @@ async function addTripData(tripId, country, city, date, lat, lng, weather, imgUr
 }
 
 async function removeTripData(tripId) {
-    // TODO: replace this whole function with a backend function
     // Post the new trip to the backend
     const response = await fetch('http://localhost:8081/delTripData', {
         method: 'POST', 
@@ -71,6 +90,7 @@ async function removeTripData(tripId) {
 
 export { 
     getApiKey,
+    getTrips,
     addTripData, 
     removeTripData
 }

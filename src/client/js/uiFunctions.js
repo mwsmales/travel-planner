@@ -1,6 +1,17 @@
 const countryLookup = require('./country_lookup.json');
 
 /**
+ * Add all trips listed in 'trips' object.
+ * Uses the 'trips' global object
+ */
+ function addAllTripsUi(trips) {
+    console.log('updating UI with trips :', trips)
+    for (let trip of trips['tripData']) {
+        addTripUi(trip['id'], trip['location']['city'], trip['location']['country'], trip['date'], trip['imgUrl']);   
+    }
+}
+
+/**
  * Update the UI when a new trip is added.
  * Assigns the trip ID to the containing HTML div
  * 
@@ -87,6 +98,7 @@ function getCountryCode(countryName) {
 }
 
 export {
+    addAllTripsUi,
     addTripUi,
     addCountryList,
     getCountryCode,

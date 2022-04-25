@@ -42,6 +42,7 @@ app.get('/getTrips', getTrips);
 function svrAddTrip(req, res) {
     let tripData = req.body;
     console.log('New trip data received: ', tripData);
+    tripData['id'] = trips['idCount'] + 1; // set trip id for newly received trip
     trips['tripData'].push(tripData);
     trips['tripCount'] += 1;
     trips['idCount'] += 1;
