@@ -24,7 +24,7 @@ async function apiGet(requestUrl='', apiName='') {
 async function getPixabayImgUrl(apiKey = '', searchTerm = '') {
     // TODO: Add error handling in case zero images are returned
     const baseUrl = 'https://pixabay.com/api/';
-    const requestUrl = `${baseUrl}?key=${apiKey}&q=${searchTerm}&image_type=photo`;
+    const requestUrl = `${baseUrl}?key=${apiKey}&q=${searchTerm}&image_type=photo&orientation=horizontal`;
     return(await apiGet(requestUrl, 'Pixabay'));
 }
 

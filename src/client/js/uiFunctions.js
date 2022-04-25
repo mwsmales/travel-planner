@@ -1,3 +1,5 @@
+const countryLookup = require('./country_lookup.json');
+
 /**
  * Update the UI when a new trip is added.
  * Assigns the trip ID to the containing HTML div
@@ -52,6 +54,25 @@ function addTripUi(tripId, city, country, startDate, imgUrl) {
     document.getElementById('outputSection').appendChild(fragment);
 }
 
+
+// function to populate country drop-down
+function addCountryList() {
+    // create fragment with drop down
+    let fragment = document.createDocumentFragment()
+    // loop thorough array of countries, and for each one
+    for (let country of countryLookup) {
+        // add an HTML child element with the country name
+        const option = document.createElement('option');
+        option.value = country['name'];
+        option.innerText = country['name'];
+        fragment.append(option);
+        // append to the fragment
+    } 
+    // add the fragment to the DOM
+    document.getElementById('countryDropDown').append(fragment);
+}
+
 export {
-    addTripUi
+    addTripUi,
+    addCountryList
 }

@@ -14,8 +14,9 @@
         <main>
             <section id="inputSection">
                 <form class="inputForm">
-                    <textarea class="inputPara" id="inputCountry" placeholder="Which country are you visiting?"></textarea> 
-                    <textarea class="inputPara" id="inputCity" placeholder="Where town / city are you visiting?"></textarea> 
+                    <!--textarea class="inputPara" id="inputCountry" placeholder="Which country are you visiting?"></textarea-->
+                    <select id="countryDropDown" name="country">
+                    <textarea class="inputPara" id="inputCity" placeholder="Which town / city are you visiting?"></textarea> 
                     <input type="date" id="dateInput">
                     <input type="button" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)">
                 </form>

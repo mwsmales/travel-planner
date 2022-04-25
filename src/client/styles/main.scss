@@ -62,8 +62,15 @@ section {
 
 
 /* TRIP CARDS */
+#outputSection {
+    display: grid;
+    grid-gap: 20px;
+}
+
 .tripCard {
-    border: 1px solid red;
     display: grid;
     grid-template-columns: 400px auto;
+    img {
+        max-width: 300px;
+    }
 }
