@@ -17,6 +17,11 @@ import {
 
 let trips = {tripCount: 0, idCount: -1, tripData : []}; // global object to hold trip info 
 
+async function refreshUI() {
+    await getTrips();
+    addAllTripsUi();
+}
+
 async function getTrips() {
     console.log('trip data before fetch: ', trips);
     console.log('getting trip data from backend');
@@ -35,6 +40,19 @@ async function getTrips() {
         console.log("error getting trip data: ", error);
     }
 }
+
+/**
+ * Add all trips listed in 'trips' object.
+ * Uses the 'trips' global object
+ */
+ function addAllTripsUi() {
+    console.log('updating UI with trips :', trips)
+    for (let trip of trips['tripData']) {
+        addTripUi(trip['id'], trip['location']['city'], trip['location']['country'], trip['date'], trip['imgUrl']);   
+    }
+}
+
+
 
 // main function 
 async function addTrip(event) {
@@ -96,6 +114,6 @@ async function deleteTrip(tripId) {
 export {
     addTrip,
     deleteTrip,
-    getTrips
+    refreshUI
 }
 

@@ -1,9 +1,11 @@
 import { 
     addTrip, 
     deleteTrip,
-    getTrips
+    refreshUI
 } from './js/formHandler'
-import { addCountryList } from './js/uiFunctions'
+import { 
+    addCountryList, 
+     } from './js/uiFunctions'
 
 
 import './styles/resets.scss'
@@ -17,10 +19,8 @@ window.addEventListener('load', (event) => {
 });
 
 window.addEventListener('load', (event) => {
-    getTrips();
+    refreshUI();
 });
-
-
 
 export {
     addTrip,
