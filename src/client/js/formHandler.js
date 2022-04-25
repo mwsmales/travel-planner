@@ -17,6 +17,25 @@ import {
 
 let trips = {tripCount: 0, idCount: -1, tripData : []}; // global object to hold trip info 
 
+async function getTrips() {
+    console.log('trip data before fetch: ', trips);
+    console.log('getting trip data from backend');
+    const response = await fetch('http://localhost:8081/getTrips', {
+        method: 'GET', 
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    try {
+        trips = await response.json(); // update global variable
+        console.log('trip data received :', trips);
+    } 
+    catch(error) {
+        console.log("error getting trip data: ", error);
+    }
+}
+
 // main function 
 async function addTrip(event) {
     event.preventDefault();
@@ -76,6 +95,7 @@ async function deleteTrip(tripId) {
 
 export {
     addTrip,
-    deleteTrip
+    deleteTrip,
+    getTrips
 }
 

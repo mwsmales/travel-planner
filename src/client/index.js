@@ -1,6 +1,7 @@
 import { 
     addTrip, 
-    deleteTrip 
+    deleteTrip,
+    getTrips
 } from './js/formHandler'
 import { addCountryList } from './js/uiFunctions'
 
@@ -12,9 +13,14 @@ import './styles/main.scss'
 
 // event listeners
 window.addEventListener('load', (event) => {
-    console.log('page is fully loaded');
     addCountryList();
-  });
+});
+
+window.addEventListener('load', (event) => {
+    getTrips();
+});
+
+
 
 export {
     addTrip,

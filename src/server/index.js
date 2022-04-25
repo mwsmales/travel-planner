@@ -35,10 +35,8 @@ app.get('/getPixabayKey', svrFns.sendPixabayKey);
 
 // post route to add new trip data
 app.post('/addTripData', svrAddTrip);
-// app.post('/delTripData', function(res, req) {
-    //     console.log('hello world!');
-    // })
 app.post('/delTripData', svrRemoveTrip);
+app.get('/getTrips', getTrips);
     
 
 function svrAddTrip(req, res) {
@@ -66,3 +64,8 @@ function svrRemoveTrip(req, res) {
     console.log('all trip data: :', trips['tripData']);
 }
 
+function getTrips(req, res) {
+    console.log('get request received')
+    res.send(JSON.stringify(trips));
+    console.log('trip data sent: :', trips);
+}
