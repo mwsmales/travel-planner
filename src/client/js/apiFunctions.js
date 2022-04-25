@@ -1,11 +1,9 @@
 /** 
  * Performs an API get for a given request URL
  * 
- * Returns the API response.json()
- * 
  * @param {string} requestUrl - the request URL
- * 
  * @param {string} apiName - the name of the API (used in console.log messages)
+ * @returns - API response.json()
  */
 async function apiGet(requestUrl='', apiName='') {
     console.log(`Making ${apiName} request...`);
@@ -20,7 +18,13 @@ async function apiGet(requestUrl='', apiName='') {
     }
 }
 
-
+/**
+ * Function to retrieve an image URL from the pixabay API
+ * 
+ * @param {string} apiKey - The API key  
+ * @param {string} searchTerm - The term to search for 
+ * @returns 
+ */
 async function getPixabayImgUrl(apiKey = '', searchTerm = '') {
     // TODO: Add error handling in case zero images are returned
     const baseUrl = 'https://pixabay.com/api/';
@@ -28,6 +32,14 @@ async function getPixabayImgUrl(apiKey = '', searchTerm = '') {
     return(await apiGet(requestUrl, 'Pixabay'));
 }
 
+/**
+ * Function to fetch latitude and longitude for a given place name.
+ * 
+ * @param {string} apiKey 
+ * @param {string} placeName - the name of a city, town etc.
+ * @param {string} countryCode - the 
+ * @returns 
+ */
 async function getGeonamesCoords(apiKey = '', placeName = '', countryCode) {
     const baseUrl = 'http://api.geonames.org/search';
     const requestUrl = `${baseUrl}?username=${apiKey}&q=${placeName}&country=${countryCode}&type=json`;
@@ -39,13 +51,10 @@ async function getGeonamesCoords(apiKey = '', placeName = '', countryCode) {
  * Fetch current weather based on lat and lng coords.
  * Uses the Weatherbit API.
  * 
- * Returns object containing the current weather data.
- * 
  * @param {float} lat - the latitude of the location
- * 
  * @param {float} lng - the longitude of the location
- * 
  * @param {string} apiKey - the API key for Weatherbit
+ * @returns - Object containing the current weather data.
  */
 async function getCurrentWeather(lat = 0, lng = 0, apiKey = '') {
     const baseUrl = 'https://api.weatherbit.io/v2.0/current';
@@ -59,13 +68,10 @@ async function getCurrentWeather(lat = 0, lng = 0, apiKey = '') {
  * Location is defined with lat and lng coords.
  * Uses the Weatherbit API.
  * 
- * Returns an object containing the forecast.
- * 
  * @param {float} lat - the latitude of the location
- * 
  * @param {float} lng - the longitude of the location
- * 
  * @param {string} apiKey - the API key for Weatherbit
+ * @returns - Object containing the forecast.
  */
 async function getForecastWeather(lat = 0, lng = 0, apiKey = '') {
     const baseUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
