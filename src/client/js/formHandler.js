@@ -1,6 +1,10 @@
 /* FUNCTION TO HANDLE FORM SUBMIT */
 
-import { getApiKey } from './backEndFunctions'
+import { 
+    getApiKey,
+    addTripData, 
+    removeTripData
+} from './backEndFunctions'
 import { 
     getPixabayImgUrl,
     getGeonamesCoords,
@@ -57,47 +61,17 @@ async function addTrip(event) {
     addTripUi(tripId, city, country, date, imgUrl);   
     
     // update trips object
-    addTripData(tripId, country, city, date, lat, lng, weatherForecast, imgUrl)
+    trips = await addTripData(tripId, country, city, date, lat, lng, weatherForecast, imgUrl);
+    console.log('trips: ', trips) 
 }
 
-function deleteTrip(tripId) {
+async function deleteTrip(tripId) {
     console.log('delete trip card, id: ', tripId);
     document.getElementById(`trip_card_${tripId}`).remove();
     
     // remove trip from data structure
-    removeTripData(tripId);
+    trips = await removeTripData(tripId);
     console.log('trips: ', trips)
-}
-
-function addTripData(tripId, country, city, date, lat, lng, weather, imgUrl) {
-    // initialize new tripdata entry    
-    console.log('Updating trip data...')
-    let tripData = {
-        'id': tripId,
-        'location':{}
-    }
-    tripData['location']['country'] = country;
-    tripData['location']['city'] = city;
-    tripData['date'] = date;
-    tripData['location']['lat'] = lat;
-    tripData['location']['lng'] = lng;
-    tripData['weather'] = weather;
-    tripData['imgUrl'] = imgUrl;
-    trips['tripData'].push(tripData);
-    trips['tripCount'] += 1;
-    trips['idCount'] += 1;
-    console.log('done: ', trips);
-}
-
-function removeTripData(tripId) {
-    trips['tripCount'] -= 1;
-    for (let i = 0; i < trips['tripData'].length; i++) {
-        if (trips['tripData'][i]['id'] == tripId) {
-            trips['tripData'].splice(i, 1);
-            break;
-        }
-    }
-
 }
 
 export {

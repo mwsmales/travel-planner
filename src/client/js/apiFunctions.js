@@ -33,12 +33,12 @@ async function getPixabayImgUrl(apiKey = '', searchTerm = '') {
 }
 
 /**
- * Function to fetch latitude and longitude for a given place name.
+ * Function to fetch coordinates for a given place name.
  * 
- * @param {string} apiKey 
+ * @param {string} apiKey - the Geonames API username
  * @param {string} placeName - the name of a city, town etc.
- * @param {string} countryCode - the 
- * @returns 
+ * @param {string} countryCode - the two-character ISO-3166 country code, e.g. 'GB'
+ * @returns the GeoNames coordinates object
  */
 async function getGeonamesCoords(apiKey = '', placeName = '', countryCode) {
     const baseUrl = 'http://api.geonames.org/search';
