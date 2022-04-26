@@ -4,9 +4,16 @@ import {
     getApiKey
 } from './backEndFunctions'
 
-// function to create trip data
-// input is country, city & date
-// return is tripData
+
+/**
+ * Create the trip data based on the destination and date by calling various APIs.
+ * 
+ * @param {string} country 
+ * @param {string} city 
+ * @param {string} date - in the format YYYY-MM-DD 
+ * @returns a tripData object containing the trip information
+ */
+
 async function createTripData(country, city, date) {
 
     // retrieve API keys from backend
@@ -22,9 +29,7 @@ async function createTripData(country, city, date) {
     const countryCode = getCountryCode(country);
 
     // Call Geonames API to get coords
-    const coords = await getGeonamesCoords(geoNamesKey, city, countryCode);
-    const lat = coords['geonames'][0]['lat'];
-    const lng = coords['geonames'][0]['lng'];
+    const [lat, lng] = await getGeonamesCoords(geoNamesKey, city, countryCode);
     console.log('Coordinates', lat, lng);
 
     // Call Weatherbit API to get forecast
@@ -36,21 +41,39 @@ async function createTripData(country, city, date) {
     const imgUrl = pixabayResults['hits'][0]['webformatURL'];
     console.log('location image url', imgUrl);
 
-    // form new tripData object    
+    // form & return new tripData object 
+    let tripData = buildTripDataObj(country, city, date, countryCode, lat, lng, weatherForecast, imgUrl)    
+    console.log('trip data object: ', tripData)
+    return tripData;
+}
+
+
+/**
+ * Forms the tripData object from a series of paramters.
+ * 
+ * @param {string} country 
+ * @param {string} city 
+ * @param {string} date - in format YYYY-MM-DD 
+ * @param {float} lat 
+ * @param {float} lng 
+ * @param {object} weatherForecast - a Weatherbit object containing the forecast 
+ * @param {string} imgUrl 
+ * @returns a tripData object
+ */
+function buildTripDataObj(country, city, date, countryCode, lat, lng, weatherForecast, imgUrl) {
     let tripData = {
         'id': null, // trip ID filled in by backend based on idCount
         'location':{}
     }
     tripData['location']['country'] = country;
     tripData['location']['city'] = city;
+    tripData['location']['countryCode'] = countryCode;
     tripData['date'] = date;
     tripData['location']['lat'] = lat;
     tripData['location']['lng'] = lng;
     tripData['weather'] = weatherForecast;
     tripData['imgUrl'] = imgUrl;
-    console.log('trip data object: ', tripData)
-
-    return tripData;
+    return(tripData);
 }
 
 
@@ -94,12 +117,15 @@ async function getPixabayImgUrl(apiKey = '', searchTerm = '') {
  * @param {string} apiKey - the Geonames API username
  * @param {string} placeName - the name of a city, town etc.
  * @param {string} countryCode - the two-character ISO-3166 country code, e.g. 'GB'
- * @returns the GeoNames coordinates object
+ * @returns array containing lat and lng.
  */
 async function getGeonamesCoords(apiKey = '', placeName = '', countryCode) {
     const baseUrl = 'http://api.geonames.org/search';
     const requestUrl = `${baseUrl}?username=${apiKey}&q=${placeName}&country=${countryCode}&type=json`;
-    return(await apiGet(requestUrl, 'GeoNames'))
+    const coords = await apiGet(requestUrl, 'GeoNames')
+    const lat = coords['geonames'][0]['lat'];
+    const lng = coords['geonames'][0]['lng'];
+    return [lat, lng]
 }
 
 
