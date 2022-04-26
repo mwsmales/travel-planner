@@ -34,39 +34,8 @@ app.get('/getWeatherbitKey', svrFns.sendWeatherbitKey);
 app.get('/getPixabayKey', svrFns.sendPixabayKey);
 
 // post route to add new trip data
-app.post('/addTripData', svrAddTrip);
-app.post('/delTripData', svrRemoveTrip);
-app.get('/getTrips', getTrips);
+app.post('/addTripData', svrFns.svrAddTrip);
+app.post('/delTripData', svrFns.svrRemoveTrip);
+app.get('/getTrips', svrFns.getTrips);
     
 
-function svrAddTrip(req, res) {
-    let tripData = req.body;
-    console.log('New trip data received: ', tripData);
-    tripData['id'] = trips['idCount'] + 1; // set trip id for newly received trip
-    trips['tripData'].push(tripData);
-    trips['tripCount'] += 1;
-    trips['idCount'] += 1;
-    res.send(JSON.stringify(trips));
-    console.log('all trip data: :', trips['tripData']);
-}
-
-function svrRemoveTrip(req, res) {
-    console.log('post received')
-    let tripId = req.body.tripId;
-    console.log('Deleting trip: ', tripId);
-    trips['tripCount'] -= 1;
-    for (let i = 0; i < trips['tripData'].length; i++) {
-        if (trips['tripData'][i]['id'] == tripId) {
-            trips['tripData'].splice(i, 1);
-            break;
-        }
-    }
-    res.send(JSON.stringify(trips));
-    console.log('all trip data: :', trips['tripData']);
-}
-
-function getTrips(req, res) {
-    console.log('get request received')
-    res.send(JSON.stringify(trips));
-    console.log('trip data sent: :', trips);
-}
