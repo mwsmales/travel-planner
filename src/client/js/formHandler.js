@@ -1,4 +1,4 @@
-/* FUNCTION TO HANDLE FORM SUBMIT */
+/* FUNCTIONS TO HANDLE FORM SUBMIT */
 
 import { 
     getTrips,
@@ -13,13 +13,21 @@ import {
     addTripUi
 } from './uiFunctions'
 
-
+/**
+ * Gets trips object from the backend, and adds the trips to the UI.
+ * Assumes that the UI will start with zero trips.
+ */
 async function refreshUI() {
     const trips = await getTrips();
     addAllTripsUi(trips);
 }
 
-// main function 
+/**
+ * Generates a new trip card based on the location and date added to the UI.
+ * Adds the new trip card to the UI.
+ * 
+ * @param {object} event - the click event from the add trip button 
+ */
 async function addTrip(event) {
     event.preventDefault();
 
@@ -40,7 +48,11 @@ async function addTrip(event) {
     addTripUi(tripData);   
 }
 
-
+/**
+ * Deletes a trip from the UI and removes it from the backend 'trips' object.
+ *  
+ * @param {bigint} tripId - the unique id of the trip 
+ */
 async function deleteTrip(tripId) {
     console.log('delete trip card, id: ', tripId);
     // remove trip from data structure
