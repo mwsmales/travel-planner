@@ -1,3 +1,8 @@
+/**
+ * Retrieve API key from backend.
+ * @param {string} url - the backend endpoint for the relevant API key. 
+ * @returns {string} the API key
+ */
 async function getApiKey(url = '') {
     console.log('Fetching API key from server', url);
     const response = await fetch(url, {
@@ -16,6 +21,10 @@ async function getApiKey(url = '') {
     }
 }
 
+/**
+ * Retrieves the `trips` object from the backend.
+ * @returns {object} `trips` data object
+ */
 async function getTrips() {
     console.log('getting trip data from backend');
     const response = await fetch('http://localhost:8081/getTrips', {
@@ -35,6 +44,11 @@ async function getTrips() {
     }
 }
 
+/**
+ * Adds a single trip entry to the end of the `trips` object, which is stored on the backend.
+ * @param {object} tripData - contains the data for a single trip.
+ * @returns {object} the updated `trips` object, including the added trip.
+ */
 async function addTripData(tripData) {
     console.log('Updating trip data...')
     console.log('trip data to be added: ', tripData)
@@ -57,6 +71,11 @@ async function addTripData(tripData) {
     }
 }
 
+/**
+ * Removes a specified trip from the `trips` data, which is stored on the backend.
+ * @param {bigint} tripId - the unique id of the trip to be removed. 
+ * @returns {object} - the updadted `trips` object
+ */
 async function removeTripData(tripId) {
     // Post the new trip to the backend
     const response = await fetch('http://localhost:8081/delTripData', {
