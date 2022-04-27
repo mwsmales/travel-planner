@@ -1,10 +1,3 @@
-const countryLookup = require('./country_lookup.json');
-
-import { 
-    getApiKey
-} from './backEndFunctions'
-
-
 /**
  * Create the trip data based on the destination and date by calling various APIs.
  * 
@@ -13,30 +6,20 @@ import {
  * @param {string} date - in the format YYYY-MM-DD 
  * @returns a tripData object containing the trip information
  */
-
-async function createTripData(country, city, date) {
-
-    // retrieve API keys from backend
-    const geoNamesKey = await getApiKey('http://localhost:8081/getGeoNamesKey');
-    const weatherbitKey = await getApiKey('http://localhost:8081/getWeatherbitKey');
-    const pixabayKey = await getApiKey('http://localhost:8081/getPixabayKey');
-
-    console.log(`GeoNames Key: ${geoNamesKey}`);
-    console.log(`Weatherbit Key: ${weatherbitKey}`);
-    console.log(`Pixabay Key: ${pixabayKey}`);
+async function createTripData(country, city, date, apiKeys) {
 
     // convert country name to ISO-3166 country code 
     const countryCode = getCountryCode(country);
 
     // Call Geonames API to get coords
-    const [lat, lng] = await getGeonamesCoords(geoNamesKey, city, countryCode);
+    const [lat, lng] = await getGeonamesCoords(apiKeys['geoNamesKey'], city, countryCode);
     console.log('Coordinates', lat, lng);
 
     // Call Weatherbit API to get forecast
-    const weatherForecast = await getForecastWeather(lat, lng, weatherbitKey);
+    const weatherForecast = await getForecastWeather(lat, lng, apiKeys['weatherbitKey']);
 
     // API request to get picture of the location
-    const imgUrl = await getPixabayImgUrl(pixabayKey, country, city);
+    const imgUrl = await getPixabayImgUrl(apiKeys['pixabayKey'], country, city);
     // TODO: add error handling to display blank image if there are no results 
     console.log('location image url', imgUrl);
 
@@ -104,7 +87,6 @@ async function apiGet(requestUrl='', apiName='') {
  * @returns 
  */
 async function getPixabayImgUrl(apiKey = '', countryName = '', cityName = '') {
-    // TODO: Add error handling in case zero images are returned
     const baseUrl = 'https://pixabay.com/api/';
     let requestUrl = `${baseUrl}?key=${apiKey}&q=${cityName} ${countryName}&image_type=photo&orientation=horizontal`;
     let response = await apiGet(requestUrl, 'Pixabay');
@@ -140,13 +122,33 @@ async function getPixabayImgUrl(apiKey = '', countryName = '', cityName = '') {
  */
 async function getGeonamesCoords(apiKey = '', placeName = '', countryCode) {
     const baseUrl = 'http://api.geonames.org/search';
-    const requestUrl = `${baseUrl}?username=${apiKey}&q=${placeName}&country=${countryCode}&type=json`;
-    const coords = await apiGet(requestUrl, 'GeoNames')
+    const requestUrl = `${baseUrl}?username=${apiKey}&q=${placeName}&country=${countryCode}&maxRows=1&type=json`;
+    const coords = await apiGet(requestUrl, 'GeoNames coordinate lookup')
     const lat = coords['geonames'][0]['lat'];
     const lng = coords['geonames'][0]['lng'];
     return [lat, lng]
 }
 
+/**
+ * Search to see if a place name exists in a given country.
+ * 
+ * @param {string} apiKey - the Geonames API username
+ * @param {string} placeName - the name of a city, town etc.
+ * @param {string} countryCode - the two-character ISO-3166 country code, e.g. 'GB'
+ * @returns {boolean} true = placeName found in country, false = placeName not found
+ */
+async function geoNamesSearch(apiKey = '', placeName = '', countryCode) {
+    const baseUrl = 'http://api.geonames.org/search';
+    const requestUrl = `${baseUrl}?username=${apiKey}&q=${placeName}&country=${countryCode}&maxRows=1&type=json`;
+    const geoNamesSearch = await apiGet(requestUrl, 'GeoNames search')
+    console.log('geoNames search: ', geoNamesSearch)
+    if (geoNamesSearch['totalResultsCount'] == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
 
 /** 
  * Fetch current weather based on lat and lng coords.
@@ -186,7 +188,8 @@ async function getForecastWeather(lat = 0, lng = 0, apiKey = '') {
  * @param {string} countryName - the country name from the drop down
  * @returns {string} the ISO 3166 country code
  */
- function getCountryCode(countryName) {
+function getCountryCode(countryName) {
+    const countryLookup = require('./country_lookup.json');
     let countryCode;
     for (let country of countryLookup) {
         if (country['name'] == countryName) {
@@ -203,4 +206,6 @@ async function getForecastWeather(lat = 0, lng = 0, apiKey = '') {
 
 export { 
     createTripData,
+    getCountryCode,
+    geoNamesSearch
 }

@@ -9,7 +9,7 @@ async function getApiKey(url = '') {
     })
     try {
         const data = await response.json();
-        console.log("API key received", url);
+        console.log("API key received");
         return(data.key);
     } catch(error) {
         console.log("error fetching API key: ", url, error);

@@ -1,4 +1,3 @@
-const countryLookup = require('./country_lookup.json');
 
 /**
  * Add all trips listed in 'trips' object.
@@ -73,6 +72,7 @@ function addTripUi(tripData) {
  * @returns - None
  */
 function addCountryList() {
+    const countryLookup = require('./country_lookup.json');
     let fragment = document.createDocumentFragment()
     for (let country of countryLookup) {
         const option = document.createElement('option');
