@@ -36,9 +36,8 @@ async function createTripData(country, city, date) {
     const weatherForecast = await getForecastWeather(lat, lng, weatherbitKey);
 
     // API request to get picture of the location
-    const pixabayResults = await getPixabayImgUrl(pixabayKey, country + ' ' + city);
+    const imgUrl = await getPixabayImgUrl(pixabayKey, country, city);
     // TODO: add error handling to display blank image if there are no results 
-    const imgUrl = pixabayResults['hits'][0]['webformatURL'];
     console.log('location image url', imgUrl);
 
     // form & return new tripData object 
@@ -104,11 +103,31 @@ async function apiGet(requestUrl='', apiName='') {
  * @param {string} searchTerm - The term to search for 
  * @returns 
  */
-async function getPixabayImgUrl(apiKey = '', searchTerm = '') {
+async function getPixabayImgUrl(apiKey = '', countryName = '', cityName = '') {
     // TODO: Add error handling in case zero images are returned
     const baseUrl = 'https://pixabay.com/api/';
-    const requestUrl = `${baseUrl}?key=${apiKey}&q=${searchTerm}&image_type=photo&orientation=horizontal`;
-    return(await apiGet(requestUrl, 'Pixabay'));
+    let requestUrl = `${baseUrl}?key=${apiKey}&q=${cityName} ${countryName}&image_type=photo&orientation=horizontal`;
+    let response = await apiGet(requestUrl, 'Pixabay');
+    let imgUrl = null; 
+    try {
+        imgUrl = response['hits'][0]['webformatURL'];
+        return(imgUrl);
+    }
+    catch {
+        console.log('no image results received from Pixabay, trying place name only')
+    }
+    
+    requestUrl = `${baseUrl}?key=${apiKey}&q=${cityName}&image_type=photo&orientation=horizontal&max`;
+    response = await apiGet(requestUrl, 'Pixabay');
+    try {
+        imgUrl = response['hits'][0]['webformatURL'];
+        return(imgUrl);
+    }
+    catch {
+        console.log('no image results received from Pixabay, returning null')
+        return(null)
+    }
+
 }
 
 /**

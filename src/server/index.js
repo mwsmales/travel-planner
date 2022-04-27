@@ -5,9 +5,6 @@ const svrFns = require('./serverFunctions');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// global object to hold trip info 
-let trips = {tripCount: 0, idCount: -1, tripData : []};
-
 //initialize app
 const express = require('express');
 const app = express();
