@@ -49,8 +49,7 @@ function addTripUi(tripData) {
     tripInfoDiv.classList += 'tripInfo';
     tripInfoDiv.innerHTML = 
         `<h2>${city}, ${country}</h2>
-        <h3>${startDate} - YYYY-MM-DD</h3>
-        <h3>XX Nights</h3>`;
+        <h3>${startDate}</h3>`;
         
     // create and append child div with weatherforecast
     let weatherDiv = document.createElement('div');
@@ -85,29 +84,8 @@ function addCountryList() {
     document.getElementById('countryDropDown').append(fragment);
 }
 
-/**
- * Converts the country name to the two-digit ISO 3166 country code.
- * 
- * @param {string} countryName - the country name from the drop down
- * @returns {string} the ISO 3166 country code
- */
-function getCountryCode(countryName) {
-    let countryCode;
-    for (let country of countryLookup) {
-        if (country['name'] == countryName) {
-            countryCode = country['alpha-2'];
-            break;
-        }
-    }
-    // const countryCode = 'GB';
-    console.log('country name: ', countryName)
-    console.log('country code: ', countryCode)
-    return(countryCode);
-}
-
 export {
     addAllTripsUi,
     addTripUi,
     addCountryList,
-    getCountryCode,
 }
