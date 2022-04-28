@@ -76,7 +76,7 @@ function createWeatherDiv(tripData, weatherDiv) {
     for (let i = 0; i <= 10; i++) {
         let dailyWeather = document.createElement('div');
         let weatherData = tripData['weather']['data'][i];
-        let forecastDate = weatherData['datetime'].slice(5,7) + '/' + weatherData['datetime'].slice(8,10)
+        let forecastDate = weatherData['datetime'].slice(5,7) + '/' + weatherData['datetime'].slice(8,10) // reformat the weather data string to US
         dailyWeather.classList += 'dailyForecast';
         dailyWeather.id = `trip_${tripData['id']}_forecast_${i+1}`;
         dailyWeather.innerHTML = 

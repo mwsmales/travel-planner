@@ -61,6 +61,17 @@ section {
 }
 
 
+#inputError {
+    padding: 10px;
+    
+    p {
+        font-size: 14px;
+        color: rgb(211, 47, 47);
+        font-weight: bold;
+    }
+}
+
+
 /* Tablets */
 @media (max-width: 1000px) {
     section {
