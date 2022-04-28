@@ -87,11 +87,11 @@ section {
 .tripCard {
     display: grid;
     grid-template-columns: 300px auto;
-    grid-template-rows: (300px * 2) / 3 150px;
+    grid-template-rows: (300px * 2) / 3 max-content;
     grid-template-areas:
         "img info"
         "weather weather";
-    grid-gap: 20px;
+    grid-gap: 10px;
     padding: 10px;
     background-color: #f4f4f4;
     border-radius: 5px;
@@ -138,6 +138,10 @@ section {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+
 
 
         .dailyForecast {
