@@ -27,8 +27,10 @@ function addTripUi(tripData) {
     const tripId = tripData['id'];
     const city = tripData['location']['city'];
     const country = tripData['location']['country'];
-    const startDate = tripData['date'];
+    const dateString = tripData['date'];
     const imgUrl = tripData['imgUrl'];
+
+    const tripDate = new Date(dateString);
 
     // create a new fragment
     const fragment = document.createDocumentFragment();
@@ -49,8 +51,9 @@ function addTripUi(tripData) {
     tripInfoDiv.classList += 'tripInfo';
     tripInfoDiv.innerHTML = 
         `<h2>${city}, ${country}</h2>
-        <h3>${startDate}</h3>`;
-        
+        <h3>${tripDate.toLocaleDateString('en-US')}</h3>`;
+    console.log('tripDate: ', tripDate)
+
     // create and append child with tripcontrols.  Incl. innerHTML with a remove trip button
     let controlsDiv = document.createElement('div');
     controlsDiv.classList += 'tripControls';
@@ -73,11 +76,12 @@ function createWeatherDiv(tripData, weatherDiv) {
     for (let i = 0; i <= 10; i++) {
         let dailyWeather = document.createElement('div');
         let weatherData = tripData['weather']['data'][i];
+        let forecastDate = weatherData['datetime'].slice(5,7) + '/' + weatherData['datetime'].slice(8,10)
         dailyWeather.classList += 'dailyForecast';
         dailyWeather.id = `trip_${tripData['id']}_forecast_${i+1}`;
         dailyWeather.innerHTML = 
         `<img src="./images/${weatherData['weather']['icon']}.png" alt="weather_icon">` +
-        `<p>${weatherData['datetime']}</p>` +
+        `<p>${forecastDate}</p>` +
         `<p>H ${weatherData['high_temp']} C</p>` +
         `<p>L ${weatherData['low_temp']} C</p>`
         weatherDiv.appendChild(dailyWeather);
@@ -104,8 +108,27 @@ function addCountryList() {
     document.getElementById('countryDropDown').append(fragment);
 }
 
+/**
+ * Display an error message at the bottom of the input section.
+ * @param {string} errorMsg - the error message to be displayed. 
+ */
+function uiDisplayError(errorMsg='') {
+    let errorDiv = document.getElementById('inputError');
+    errorDiv.innerHTML = `<p>${errorMsg}</p>`
+}
+
+/**
+ * Clear any error messages displayed at the bottom of the input section.
+ */
+function uiClearError() {
+    let errorDiv = document.getElementById('inputError');
+    errorDiv.innerHTML = ''
+}
+
 export {
     addAllTripsUi,
     addTripUi,
     addCountryList,
+    uiDisplayError,
+    uiClearError
 }

@@ -14,6 +14,8 @@ import {
 import { 
     addAllTripsUi,
     addTripUi,
+    uiDisplayError,
+    uiClearError
 } from './uiFunctions'
 
 /**
@@ -37,7 +39,7 @@ async function addTrip(event) {
     // get values from UI
     const country = document.getElementById('countryDropDown').value;
     const cityInput = document.getElementById('inputCity').value;
-    const date = document.getElementById('dateInput').value;
+    let tripDate = document.getElementById('dateInput').value;
     
     // Retrieve API keys
     const geoNamesKey = await getApiKey('http://localhost:8081/getGeoNamesKey');
@@ -57,8 +59,15 @@ async function addTrip(event) {
     if (city == null) {
         return;
     }
+
+    tripDate = validateDate(tripDate);
+    if (tripDate == null) {
+        return;
+    }
+
+    uiClearError(); // if all validation passes, clear any UI error messages
     
-    let tripData = await createTripData(country, city, date, apiKeys);
+    let tripData = await createTripData(country, city, tripDate, apiKeys);
     
     // update trips object
     const trips = await addTripData(tripData);
@@ -79,17 +88,55 @@ async function addTrip(event) {
  * @returns 
  */
 async function validateCity(apiKey='', city = '', country = '') {
+    if (city == '') {
+        uiDisplayError('Error: please enter the name of a city or town');
+        return null
+    } 
+    
     const countryCode = getCountryCode(country);
+    
     const placeExists = await geoNamesSearch(apiKey, city, countryCode)
     if (placeExists) {
         console.log(`${city}, ${countryCode} found on GeoNames search API`)
         return city;
     }
     else {
-        // TODO: replace with error printed to UI
-        console.log('Error: place name not found in that country')
+        uiDisplayError('Error: place name not found in that country')
         return null
     }
+}
+
+
+/**
+ * Validates the date entered on the page, and converts to to a javascript date object.
+ * If the date is invalid (i.e. not entered or in the past) display an error and return null value.
+ * The trip date entered is interpreted as being at midnight that morning, local time.
+ * @param {string} tripDate - date in the format "YYYY-MM-DD"
+ * @returns {object} - javascript date object (if the date is valid), or null otherwise.
+ */
+function validateDate(tripDate) {
+    // check that a date has been entered
+    if (tripDate == '') {
+        uiDisplayError('Please enter a valid date');
+        return(null);
+    }
+
+    // convert date to an object, accounting for timzone difference
+    console.log('Trip date string: ', tripDate)
+    const tripYear = tripDate.slice(0, 4);
+    const tripMonth = tripDate.slice(5,7);
+    const tripDay = tripDate.slice(8,10);
+    const tripDateObj = new Date(tripYear, tripMonth-1, tripDay); // date set as midnight local time
+        
+    // check that the date is today or later
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // set today to midnight, local time
+    if (tripDateObj < today) {
+        uiDisplayError('Please enter a date in the future');
+        return(null);
+    }
+    
+    return(tripDateObj);
 }
 
 

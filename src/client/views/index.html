@@ -17,11 +17,19 @@
                     <select id="countryDropDown" name="country">
                     <textarea class="inputPara" id="inputCity" placeholder="Which town / city are you visiting?"></textarea> 
                     <input type="date" id="dateInput">
+                    <script>
+                        const date = new Date();  // set default date
+                        const dateString = date.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' });
+                        document.getElementById("dateInput").value = dateString;
+                    </script>
                     <input type="button" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)">
                 </form>
+                <div class="errorMessage" id="inputError">
+                    <!-- to be populated by javascript -->
+                </div>
             </section>
             <section id="outputSection">
-                <!-- to be filled by javascript -->
+                <!-- to be populated by javascript -->
             </section>
         </main>
         <footer>

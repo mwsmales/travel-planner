@@ -4,7 +4,9 @@ import {
     refreshUI
 } from './js/formHandler'
 import { 
-    addCountryList, 
+    addCountryList,
+    uiDisplayError,
+    uiClearError,
      } from './js/uiFunctions'
 
 
@@ -93,5 +95,7 @@ window.addEventListener('load', (event) => {
 export {
     addTrip,
     deleteTrip,
-    addCountryList
+    addCountryList,
+    uiDisplayError,
+    uiClearError
 }
