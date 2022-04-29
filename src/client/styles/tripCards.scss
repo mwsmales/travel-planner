@@ -1,0 +1,147 @@
+/* TRIP CARDS */
+#outputSection {
+    display: grid;
+    grid-gap: 20px;
+}
+
+
+.tripCard {
+    display: grid;
+    grid-template-columns: 300px auto;
+    grid-template-rows: (300px * 2) / 3 max-content;
+    grid-template-areas:
+        "img info"
+        "weather weather";
+    grid-gap: 10px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    
+    
+    .tripImg {
+        grid-area: img;
+        
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    }
+
+
+    .tripInfo {
+        grid-area: info;
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+        position: relative;
+    }
+
+
+    .tripControls {
+        position: absolute;
+        bottom: 10px;
+    }
+
+    
+    .deleteButton {
+        width: 100px;
+        height: 30px;
+    }
+
+
+
+    .weatherForecast {
+        grid-area: weather;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+
+
+    .dailyForecast {
+        width: 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img {
+            width: 90%;
+        }
+        p {
+            line-height: 1.25em;
+            font-size: 14px;
+        }
+    }
+}
+
+
+/* Tablets */
+@media (max-width: 1000px) {
+    .tripCard {
+        display: grid;
+        grid-template-columns: 250px auto;
+        grid-template-rows: (250px * 2) / 3 max-content;
+        grid-template-areas:
+            "img info"
+            "weather weather";
+        grid-gap: 10px;
+
+
+        .dailyForecast {
+            width: 60px;
+            padding: 0px;
+        }
+    }
+}
+
+
+/* small screens */
+@media (max-width: 700px) {
+    .tripCard {
+        display: flex;
+        flex-direction: column;
+
+
+        .tripImg {
+            width: 100%;
+        }
+
+
+        .tripInfo {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .tripControls {
+            position:static;
+            margin: 10px 0;
+        }
+
+    
+    .weatherForecast {
+        flex-direction: column;
+        
+        .dailyForecast {
+            display: grid;
+            grid-template-columns: 90px 1fr 1fr 1fr;
+            grid-gap: 10px;
+            width: 100%;
+
+            
+            p {
+                font-size: 16px;
+            }
+        }
+    }
+
+    
+    
+    }
+}

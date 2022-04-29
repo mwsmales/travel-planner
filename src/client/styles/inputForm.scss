@@ -1,0 +1,136 @@
+/* INPUT FORM */
+.inputForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+
+    #countryDropDown {
+        margin: 0;
+        width: 280px;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        padding: 10px;
+        color: grey;
+
+        &:hover {
+            border: 2px solid lightgrey;
+        }
+    }    
+    
+
+    #inputCity {
+        font-family: sans-serif;
+        padding: 10px 10px;
+        line-height: 18px;
+        height: 40px;
+        resize: none;
+        overflow: hidden;
+        margin: 0;
+        width: 280px;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        color: grey;
+
+
+        &:hover {
+            border: 2px solid lightgrey;
+        }
+    }    
+
+
+    #dateInput {
+        margin: 0;
+        max-width: 120px;
+        padding: 10px; 
+        font-family: sans-serif;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        color: grey;
+
+
+        &:hover {
+            border: 2px solid lightgrey;
+        }
+    }    
+    
+
+    #actionButton {
+        width: 300px;
+        margin: 0;
+    }    
+}    
+
+
+#inputError {
+    padding: 10px;
+    
+
+    p {
+        font-size: 14px;
+        color: rgb(211, 47, 47);
+        font-weight: bold;
+    }    
+}    
+
+
+/* Tablets */
+@media (max-width: 1000px) {
+    .inputForm {
+        display: grid;
+        grid-template-areas:
+            "top-left top-mid top-right"
+            "bottom bottom bottom";
+        grid-template-columns: 200px 300px 200px;
+        grid-gap: 10px;
+        
+            #countryDropDown {
+            width: 100%;
+            grid-area: top-left;
+        }
+        
+        
+        #inputCity {
+            grid-area: top-mid;
+            width: 100%;
+        }
+        
+        
+        #dateInput {
+            width: 100%;
+            grid-area: top-right;
+        }
+
+
+        #actionButton {
+            grid-area: bottom;
+            height: 30px;
+        }
+    }
+}
+
+
+/* small screens */
+@media (max-width: 700px) {
+    .inputForm {
+        display: flex;
+        flex-direction: column;
+        
+        #countryDropDown {
+            width: 100%;
+        }
+    
+        
+        #inputCity {
+            width: 100%;
+        }
+        
+                
+        #actionButton {
+        width: 100%;
+        height: 30px;
+        }
+    }   
+}
+    
+
