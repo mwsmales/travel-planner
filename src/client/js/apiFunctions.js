@@ -204,6 +204,7 @@ function getCountryCode(countryName) {
 
 
 export { 
+    apiGet,
     createTripData,
     getCountryCode,
     geoNamesSearch
