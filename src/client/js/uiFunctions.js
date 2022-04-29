@@ -90,8 +90,8 @@ function createWeatherDiv(tripData, weatherDiv) {
         dailyWeather.innerHTML = 
         `<img src="./images/${weatherData['weather']['icon']}.png" alt="weather_icon">` +
         `<p>${forecastDate}</p>` +
-        `<p>H ${weatherData['high_temp']} C</p>` +
-        `<p>L ${weatherData['low_temp']} C</p>`
+        `<p>${weatherData['high_temp'].toFixed(0)}&deg</p>` +
+        `<p>${weatherData['low_temp'].toFixed(0)}&deg</p>`
         weatherDiv.appendChild(dailyWeather);
     }
     return(weatherDiv)

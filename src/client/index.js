@@ -17,6 +17,7 @@ import './styles/header.scss'
 import './styles/main.scss'
 import './styles/inputForm.scss'
 import './styles/tripCards.scss'
+import './styles/footer.scss'
 
 // icons
 import './images/a01d.png'
