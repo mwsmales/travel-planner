@@ -18,12 +18,17 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader' ]
+            },
+            {
+                test: /\.png/,
+                type: 'asset/resource'
             }
         ]
     },
     output: {
         libraryTarget: 'var',
         library: 'Client',
+        assetModuleFilename: 'images/[name][ext]',
         clean: true,
     },
     plugins: [
