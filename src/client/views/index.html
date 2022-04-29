@@ -22,7 +22,7 @@
                         const dateString = date.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric' });
                         document.getElementById("dateInput").value = dateString;
                     </script>
-                    <input type="button" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)">
+                    <input type="button" class="actionButton" id="actionButton" value="Add trip!" onclick="Client.addTrip(event)">
                 </form>
                 <div class="errorMessage" id="inputError">
                     <!-- to be populated by javascript -->

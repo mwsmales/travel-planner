@@ -34,3 +34,14 @@ p {
 }
 
 
+input[type=button] {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+
+    
+    &:hover{
+        background-color: darkgrey;
+        color: white;
+        border: none;
+    }
+}
