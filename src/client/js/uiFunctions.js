@@ -81,7 +81,7 @@ function addTripUi(tripData, displayOrder) {
 
 // create the weather div HTML which can be appended to the document when the UI is drawn
 function createWeatherDiv(tripData, weatherDiv) {
-    for (let i = 0; i <= 10; i++) {
+    for (let i = 0; i < 10; i++) {
         let dailyWeather = document.createElement('div');
         let weatherData = tripData['weather']['data'][i];
         let forecastDate = weatherData['datetime'].slice(5,7) + '/' + weatherData['datetime'].slice(8,10) // reformat the weather data string to US

@@ -20,7 +20,6 @@ async function createTripData(country, city, date, apiKeys) {
 
     // API request to get picture of the location
     const imgUrl = await getPixabayImgUrl(apiKeys['pixabayKey'], country, city);
-    // TODO: add error handling to display blank image if there are no results 
     console.log('location image url', imgUrl);
 
     // form & return new tripData object 
