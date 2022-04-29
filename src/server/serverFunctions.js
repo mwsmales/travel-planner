@@ -20,7 +20,7 @@ function sendPixabayKey (req, res) {
 function getTrips(req, res) {
     console.log('get request received')
     res.send(JSON.stringify(trips));
-    console.log('trip data sent: :', trips);
+    console.log('trip data sent: ', trips);
 }
 
 function svrAddTrip(req, res) {
@@ -30,8 +30,13 @@ function svrAddTrip(req, res) {
     trips['tripData'].push(tripData);
     trips['tripCount'] += 1;
     trips['idCount'] += 1;
+    trips['tripData'].sort((a, b) => (a.date > b.date) ? 1: -1); // sort the trips in chronological order
+    for (let i = 0; i < trips['tripData'].length; i++) {
+        trips['tripData'][i]['displayOrder'] = i; // set the trip display order
+    }
+    console.log('trip data sorted...')
     res.send(JSON.stringify(trips));
-    console.log('all trip data: :', trips['tripData']);
+    console.log('all trip data: ', trips['tripData']);
 }
 
 function svrRemoveTrip(req, res) {

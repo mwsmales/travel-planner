@@ -10,18 +10,18 @@
  function addAllTripsUi(trips) {
     console.log('updating UI with trips :', trips)
     for (let tripData of trips['tripData']) {
-        addTripUi(tripData);   
+        addTripUi(tripData, -1);   
     }
 }
 
 /**
- * Update the UI when a new trip is added.
+ * Adds a new trip to the UI, to the bottom of the list of trips.
  * Assigns the trip ID to the containing HTML div.
- * 
  * @param {object} tripData - object containing the trip data
+ * @param {bigint} displayOrder - the display order of the card, starting at 0.  -1 indicates that the trip should be appended to the end 
  * @returns - None.
  */
-function addTripUi(tripData) {
+function addTripUi(tripData, displayOrder) {
     //unpack data from tripData object
     console.log('tripData: ', tripData)
     const tripId = tripData['id'];
@@ -67,7 +67,15 @@ function addTripUi(tripData) {
     weatherDiv = createWeatherDiv(tripData, weatherDiv);
     cardDiv.appendChild(weatherDiv);
     
-    document.getElementById('outputSection').appendChild(fragment);
+    let outputSection = document.getElementById('outputSection');
+
+    // depending on the display order, and the number of elements present, append the div to the end or before one of the children
+    if (displayOrder == -1 || outputSection.childElementCount == 0 || displayOrder == outputSection.childElementCount ) {
+        outputSection.appendChild(fragment);
+    }
+    else {
+        outputSection.insertBefore(fragment, outputSection.children[displayOrder]);
+    }
 }
 
 

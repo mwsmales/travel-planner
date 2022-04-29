@@ -39,7 +39,7 @@ async function addTrip(event) {
     // get values from UI
     const country = document.getElementById('countryDropDown').value;
     const cityInput = document.getElementById('inputCity').value;
-    let tripDate = document.getElementById('dateInput').value;
+    const dateString = document.getElementById('dateInput').value;
     
     // Retrieve API keys
     const geoNamesKey = await getApiKey('http://localhost:8081/getGeoNamesKey');
@@ -60,7 +60,8 @@ async function addTrip(event) {
         return;
     }
 
-    tripDate = validateDate(tripDate);
+    // validate the trip date string, and convert to a JS date object
+    const tripDate = validateDate(dateString);
     if (tripDate == null) {
         return;
     }
@@ -73,9 +74,18 @@ async function addTrip(event) {
     const trips = await addTripData(tripData);
     console.log('trips: ', trips) 
     tripData['id'] = trips['idCount'];
-    
+
+    // get the display order for this trip from the server-returned object
+    let displayOrder;
+    for (let trip of trips['tripData']) {
+        if (trip['id'] == tripData['id']) {
+            displayOrder = trip['displayOrder'];
+            console.log('display order: ', displayOrder)
+        } 
+    }
+
     // Update the UI
-    addTripUi(tripData);   
+    addTripUi(tripData, displayOrder);   
 }
 
 
